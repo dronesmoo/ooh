@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Virtual Tour</title>
+    <link rel="stylesheet" href="pannellum.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+        }
+        #panorama {
+            width: 100%;
+            height: 100vh;
+        }
+        #landing {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: url('sign.jpg') center center / cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        #landing h1 {
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 2em;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+        }
+        #enter-btn {
+            position: absolute;
+            bottom: 40%;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: 2px solid white;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #enter-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="landing">
+        <h1>Seeds of Hope Counseling</h1>
+        <button id="enter-btn" onclick="startTour()">Click to Start Tour</button>
+    </div>
+
+    <div id="panorama"></div>
+
+    <script src="pannellum.js"></script>
+    <script>
+        function startTour() {
+            document.getElementById('landing').style.display = 'none';
+            pannellum.viewer('panorama', {
+            default: {
+                        firstScene: 'waitingroom',
+                        hfov: 120,
+                        autoLoad: true,
+                        showControls: true
+                    },
+         scenes: {
+         waitingroom: {
+            type: 'equirectangular',
+            panorama: 'https://media.dronesmoo.com/seedsofhope/waitingroom.jpg',
+            hotSpots: [
+                {
+                    pitch: 0,
+                    yaw: 0,
+                    type: 'scene',
+                    text: 'Go to Hallway',
+                    sceneId: 'hall',
+                    autoLoad: true
+                }
+            ]
+        },
+        hall: {
+            type: 'equirectangular',
+            panorama: 'https://media.dronesmoo.com/seedsofhope/hall.jpg',
+            hotSpots: [
+                {
+                    pitch: 0,
+                    yaw: -180,
+                    text: 'Back to Waiting Room',
+                    type: 'scene',
+                    sceneId: 'waitingroom'
+                },
+                {
+                    pitch: 0,
+                    yaw: 6,
+                    text: 'Office 3',
+                    type: 'scene',
+                    sceneId: 'officethree'
+                },
+                {
+                    pitch: -5,
+                    yaw: 10,
+                    text: 'Office 2',
+                    type: 'scene',
+                    sceneId: 'officetwo'
+                },
+                {
+                    pitch: 0,
+                    yaw: 140,
+                    text: 'Office 1',
+                    type: 'scene',
+                    sceneId: 'officeone'
+                },
+                {
+                    pitch: 0,
+                    yaw: 160,
+                    text: 'Conference Room',
+                    type: 'scene',
+                    sceneId: 'conferenceroom'
+                }
+            ]
+            },
+            conferenceroom: {
+            type: 'equirectangular',
+            panorama: 'https://media.dronesmoo.com/seedsofhope/conferenceroom.jpg',
+            hotSpots: [
+                {
+                    pitch: 0,
+                    yaw: -7.26,
+                    type: 'scene',
+                    text: 'Go to Hallway',
+                    sceneId: 'hall'
+                }
+            ]
+        },
+            officeone: {
+            type: 'equirectangular',
+            panorama: 'https://media.dronesmoo.com/seedsofhope/officeone.jpg',
+            hotSpots: [
+                {
+                    pitch: 0,
+                    yaw: 62.5,
+                    type: 'scene',
+                    text: 'Go to Hallway',
+                    sceneId: 'hall'
+                }
+            ]
+        },
+            officetwo: {
+            type: 'equirectangular',
+            panorama: 'https://media.dronesmoo.com/seedsofhope/officetwo.jpg',
+            hotSpots: [
+                {
+                    pitch: 0,
+                    yaw: -65.38,
+                    type: 'scene',
+                    text: 'Go to Hallway',
+                    sceneId: 'hall'
+                }
+            ]
+        },
+            officethree: {
+            type: 'equirectangular',
+            panorama: 'https://media.dronesmoo.com/seedsofhope/officethree.jpg',
+            hotSpots: [
+                {
+                    pitch: 0,
+                    yaw: 51.3,
+                    type: 'scene',
+                    text: 'Go to Hallway',
+                    sceneId: 'hall'
+                }
+            ]
+        }
+    }
+});
+        }
+    </script>
+
+</body>
+</html>
