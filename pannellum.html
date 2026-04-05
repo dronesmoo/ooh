@@ -78,7 +78,8 @@
                     type: 'scene',
                     text: 'Go to Hallway',
                     sceneId: 'hall',
-                
+                createTooltipFunc: function(hotSpotDiv) {
+            hotSpotDiv.parentElement.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';},
                     autoLoad: true,
                    
                 }
