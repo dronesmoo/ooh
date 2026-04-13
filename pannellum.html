@@ -223,6 +223,22 @@
     }
 });
         }
+        function preloadImages() {
+    var urls = [
+        'https://media.dronesmoo.com/seedsofhope/hall.JPG',
+        'https://media.dronesmoo.com/seedsofhope/conferenceroom.JPG',
+        'https://media.dronesmoo.com/seedsofhope/officeone.JPG',
+        'https://media.dronesmoo.com/seedsofhope/officetwo.JPG',
+        'https://media.dronesmoo.com/seedsofhope/officethree.JPG'
+    ];
+    urls.forEach(function(url) {
+        var img = new Image();
+        img.src = url;
+    });
+}
+        viewer.on('load', function() {
+    preloadImages();
+});
     </script>
 
 </body>
