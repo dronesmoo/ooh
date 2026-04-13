@@ -9,20 +9,24 @@
         /* Base style for all hotspots */
 .pnlm-hotspot.pnlm-scene {
     background-image: none;
+    width: 120px !important;
+    height: 120px !important;
+    font-size: 48px !important;
 }
 
 /* Shared icon styles */
 [class^="hotspot-"]::before {
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
-    font-size: 48px;
+    font-size: 48px !important;
     color: white;
-    width: 120px;
-    height: 120px;
+    width: 120px !important;
+    height: 120px !important;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    text-shadow: 0 0 8px rgba(0,0,0,0.8);
 }
         
 
@@ -108,6 +112,7 @@
         ];
         urls.forEach(function(url) {
             var img = new Image();
+            img.crossOrigin = 'anonymous';
             img.src = url;
         });
     }
@@ -119,7 +124,8 @@
                 firstScene: 'waitingroom',
                 hfov: 120,
                 autoLoad: true,
-                showControls: true
+                showControls: true,
+                sceneFadeDuration: 1000
             },
          scenes: {
          waitingroom: {
