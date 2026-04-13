@@ -84,6 +84,36 @@
         .hotspot-conference::before { content: "\f0c0"; }
         .hotspot-hallway::before { content: "\f062"; }
         .hotspot-waiting::before { content: "\f4b8"; }
+        #nav-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.75);
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    z-index: 2;
+}
+
+.nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 8px 16px;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.nav-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
     </style>
 </head>
 <body>
@@ -111,7 +141,46 @@
                 img.src = url;
             });
         }
+        function buildJumpMenu(viewer) {
+    var menu = document.getElementById('jump-menu');
+    menu.innerHTML = '';
+    var config = viewer.getConfig();
+    var scenes = config.scenes || {};
 
+    Object.keys(scenes).forEach(function(sceneId) {
+        var btn = document.createElement('button');
+        btn.className = 'jump-btn';
+        // Convert 'officeone' to 'Office one' etc
+        btn.textContent = sceneId
+            .replace(/([a-z])([A-Z])/g, '$1 $2')
+            .replace(/^./, function(c) { return c.toUpperCase(); });
+        btn.onclick = function() {
+            viewer.loadScene(sceneId);
+            toggleJumpMenu();
+        };
+        menu.appendChild(btn);
+    });
+}
+        function toggleJumpMenu() {
+    var menu = document.getElementById('jump-menu');
+    menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
+}
+        function updateNavBar(viewer) {
+    var config = viewer.getConfig();
+    var hotSpots = config.hotSpots || [];
+    var navBar = document.getElementById('nav-bar');
+    navBar.innerHTML = '';
+
+    hotSpots.forEach(function(spot) {
+        var btn = document.createElement('button');
+        btn.className = 'nav-btn ' + spot.cssClass;
+        btn.innerHTML = '<span>' + spot.text + '</span>';
+        btn.onclick = function() {
+            viewer.loadScene(spot.sceneId);
+        };
+        navBar.appendChild(btn);
+    });
+}
         function startTour() {
             document.getElementById('landing').style.display = 'none';
             var viewer = pannellum.viewer('panorama', {
@@ -245,7 +314,11 @@
 
             viewer.on('load', function() {
                 preloadImages();
+                updateNavBar(viewer);
             });
+            viewer.on('scenechange', function() {
+    updateNavBar(viewer);
+});
         }
     </script>
 
