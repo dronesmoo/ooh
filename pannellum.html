@@ -114,6 +114,50 @@
 .nav-btn:hover {
     background: rgba(255,255,255,0.3);
 }
+        #jump-toggle {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0,0,0,0.75);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    z-index: 2;
+}
+
+#jump-toggle:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+#jump-menu {
+    position: absolute;
+    top: 48px;
+    right: 12px;
+    background: rgba(0,0,0,0.75);
+    border-radius: 12px;
+    padding: 8px;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 2;
+}
+
+.jump-btn {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 12px;
+    padding: 8px 16px;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.jump-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
     </style>
 </head>
 <body>
@@ -125,6 +169,9 @@
 
     <div id="panorama"></div>
     <div id="nav-bar"></div>
+    <div id="nav-bar"></div>
+<button id="jump-toggle" onclick="toggleJumpMenu()">Jump to Room</button>
+<div id="jump-menu" style="display: none;"></div>
     <script src="pannellum.js"></script>
     <script>
         function preloadImages() {
@@ -315,6 +362,7 @@
             viewer.on('load', function() {
                 preloadImages();
                 updateNavBar(viewer);
+                buildJumpMenu(viewer);
             });
             viewer.on('scenechange', function() {
     updateNavBar(viewer);
