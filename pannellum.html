@@ -5,53 +5,85 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>Virtual Tour</title>
     <link rel="stylesheet" href="pannellum.css">
-   
     <style>
-    /* Hide loading elements */
-.pnlm-load-box,
-.pnlm-lbox,
-.pnlm-loading,
-.pnlm-load-button {
-    display: none !important;
-}
-/* Hide default hotspot icon */
-.pnlm-hotspot.pnlm-scene {
-    background-image: none;
-}
-
-/* Hotspot container sizing */
-.pnlm-hotspot-base.hotspot-hallway,
-.pnlm-hotspot-base.hotspot-office,
-.pnlm-hotspot-base.hotspot-conference,
-.pnlm-hotspot-base.hotspot-waiting {
-    width: 40px !important;
-    height: 40px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    overflow: visible !important;
-}
-
-/* Icon styles */
-.hotspot-hallway::before,
-.hotspot-office::before,
-.hotspot-conference::before,
-.hotspot-waiting::before {
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    font-size: 30px;
-    color: white;
-    text-shadow: 0 0 8px rgba(0,0,0,0.8);
-}
-
-/* Room type icons */
-.hotspot-office::before { content: "\f0b1"; }
-.hotspot-conference::before { content: "\f0c0"; }
-.hotspot-hallway::before { content: "\f062"; }
-.hotspot-waiting::before { content: "\f4b8"; }
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+        }
+        #panorama {
+            width: 100%;
+            height: 100vh;
+        }
+        #landing {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        #landing h1 {
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 2em;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+        }
+        #enter-btn {
+            position: absolute;
+            bottom: 40%;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: 2px solid white;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
         #enter-btn:hover {
             background: rgba(255,255,255,0.2);
         }
+
+        /* Hide loading elements */
+        .pnlm-load-box,
+        .pnlm-lbox,
+        .pnlm-loading,
+        .pnlm-load-button {
+            display: none !important;
+        }
+
+        /* Hide default hotspot sprite and size the container */
+        .pnlm-hotspot-base.hotspot-hallway,
+        .pnlm-hotspot-base.hotspot-office,
+        .pnlm-hotspot-base.hotspot-conference,
+        .pnlm-hotspot-base.hotspot-waiting {
+            background-image: none !important;
+            width: 40px !important;
+            height: 40px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            overflow: visible !important;
+        }
+
+        /* Icon styles */
+        .hotspot-hallway::before,
+        .hotspot-office::before,
+        .hotspot-conference::before,
+        .hotspot-waiting::before {
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 30px;
+            color: white;
+            text-shadow: 0 0 8px rgba(0,0,0,0.8);
+        }
+
+        /* Room type icons */
+        .hotspot-office::before  { content: "\f0b1"; }
+        .hotspot-conference::before { content: "\f0c0"; }
+        .hotspot-hallway::before { content: "\f062"; }
+        .hotspot-waiting::before { content: "\f4b8"; }
     </style>
 </head>
 <body>
@@ -64,160 +96,158 @@
     <div id="panorama"></div>
 
     <script src="pannellum.js"></script>
-<script>
-    function preloadImages() {
-        var urls = [
-            'https://media.dronesmoo.com/seedsofhope/hall.JPG',
-            'https://media.dronesmoo.com/seedsofhope/conferenceroom.JPG',
-            'https://media.dronesmoo.com/seedsofhope/officeone.JPG',
-            'https://media.dronesmoo.com/seedsofhope/officetwo.JPG',
-            'https://media.dronesmoo.com/seedsofhope/officethree.JPG'
-        ];
-        urls.forEach(function(url) {
-            var img = new Image();
-            img.crossOrigin = 'anonymous';
-            img.src = url;
-        });
-    }
-
-    function startTour() {
-        document.getElementById('landing').style.display = 'none';
-        var viewer = pannellum.viewer('panorama', {
-            default: {
-                firstScene: 'waitingroom',
-                hfov: 120,
-                autoLoad: true,
-                showControls: true,
-                sceneFadeDuration: 1000
-            },
-         scenes: {
-         waitingroom: {
-            type: 'equirectangular',
-            panorama: 'https://media.dronesmoo.com/seedsofhope/waitingroom.JPG',
-     
-            hotSpots: [
-                {
-                    pitch: 0,
-                    yaw: 0,
-                    type: 'scene',
-                    text: 'Go to Hallway',
-                    sceneId: 'hall',
-                    cssClass: 'hotspot-hallway',
-                    autoLoad: true,
-                   
-                }
-            ]
-        },
-        hall: {
-            type: 'equirectangular',
-            panorama: 'https://media.dronesmoo.com/seedsofhope/hall.JPG',
-            hotSpots: [
-                {
-                    pitch: 0,
-                    yaw: -180,
-                    text: 'Back to Waiting Room',
-                    type: 'scene',
-                    cssClass: 'hotspot-waiting',
-                    sceneId: 'waitingroom'
-                },
-                {
-                    pitch: 0,
-                    yaw: 6,
-                    text: 'Office 3',
-                    type: 'scene',
-                    cssClass: 'hotspot-office',
-                    sceneId: 'officethree'
-                },
-                {
-                    pitch: -5,
-                    yaw: 10,
-                    text: 'Office 2',
-                    type: 'scene',
-                    cssClass: 'hotspot-office',
-                    sceneId: 'officetwo'
-                },
-                {
-                    pitch: 0,
-                    yaw: 140,
-                    text: 'Office 1',
-                    type: 'scene',
-                    cssClass: 'hotspot-office',
-                    sceneId: 'officeone'
-                },
-                {
-                    pitch: 0,
-                    yaw: 160,
-                    text: 'Conference Room',
-                    type: 'scene',
-                    cssClass: 'hotspot-conference',
-                    sceneId: 'conferenceroom'
-                }
-            ]
-            },
-            conferenceroom: {
-            type: 'equirectangular',
-            panorama: 'https://media.dronesmoo.com/seedsofhope/conferenceroom.JPG',
-            hotSpots: [
-                {
-                    pitch: 0,
-                    yaw: -7.26,
-                    type: 'scene',
-                    text: 'Go to Hallway',
-                    cssClass: 'hotspot-hallway',
-                    sceneId: 'hall'
-                }
-            ]
-        },
-            officeone: {
-            type: 'equirectangular',
-            panorama: 'https://media.dronesmoo.com/seedsofhope/officeone.JPG',
-            hotSpots: [
-                {
-                    pitch: 0,
-                    yaw: 62.5,
-                    type: 'scene',
-                    text: 'Go to Hallway',
-                    cssClass: 'hotspot-hallway',
-                    sceneId: 'hall'
-                }
-            ]
-        },
-            officetwo: {
-            type: 'equirectangular',
-            panorama: 'https://media.dronesmoo.com/seedsofhope/officetwo.JPG',
-            hotSpots: [
-                {
-                    pitch: 0,
-                    yaw: -65.38,
-                    type: 'scene',
-                    text: 'Go to Hallway',
-                    cssClass: 'hotspot-hallway',
-                    sceneId: 'hall'
-                }
-            ]
-        },
-            officethree: {
-            type: 'equirectangular',
-            panorama: 'https://media.dronesmoo.com/seedsofhope/officethree.JPG',
-            hotSpots: [
-                {
-                    pitch: 0,
-                    yaw: 51.3,
-                    type: 'scene',
-                    text: 'Go to Hallway',
-                    cssClass: 'hotspot-hallway',
-                    sceneId: 'hall'
-                }
-            ]
+    <script>
+        function preloadImages() {
+            var urls = [
+                'https://media.dronesmoo.com/seedsofhope/hall.JPG',
+                'https://media.dronesmoo.com/seedsofhope/conferenceroom.JPG',
+                'https://media.dronesmoo.com/seedsofhope/officeone.JPG',
+                'https://media.dronesmoo.com/seedsofhope/officetwo.JPG',
+                'https://media.dronesmoo.com/seedsofhope/officethree.JPG'
+            ];
+            urls.forEach(function(url) {
+                var img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.src = url;
+            });
         }
-    }
-});
-         viewer.on('load', function() {
-            preloadImages();
-            
-        });
-    }
-</script>
+
+        function startTour() {
+            document.getElementById('landing').style.display = 'none';
+            var viewer = pannellum.viewer('panorama', {
+                default: {
+                    firstScene: 'waitingroom',
+                    hfov: 120,
+                    autoLoad: true,
+                    showControls: true,
+                    sceneFadeDuration: 1000
+                },
+                scenes: {
+                    waitingroom: {
+                        type: 'equirectangular',
+                        panorama: 'https://media.dronesmoo.com/seedsofhope/waitingroom.JPG',
+                        hotSpots: [
+                            {
+                                pitch: 0,
+                                yaw: 0,
+                                type: 'scene',
+                                text: 'Go to Hallway',
+                                sceneId: 'hall',
+                                cssClass: 'hotspot-hallway',
+                                autoLoad: true
+                            }
+                        ]
+                    },
+                    hall: {
+                        type: 'equirectangular',
+                        panorama: 'https://media.dronesmoo.com/seedsofhope/hall.JPG',
+                        hotSpots: [
+                            {
+                                pitch: 0,
+                                yaw: -180,
+                                text: 'Back to Waiting Room',
+                                type: 'scene',
+                                cssClass: 'hotspot-waiting',
+                                sceneId: 'waitingroom'
+                            },
+                            {
+                                pitch: 0,
+                                yaw: 6,
+                                text: 'Office 3',
+                                type: 'scene',
+                                cssClass: 'hotspot-office',
+                                sceneId: 'officethree'
+                            },
+                            {
+                                pitch: -5,
+                                yaw: 10,
+                                text: 'Office 2',
+                                type: 'scene',
+                                cssClass: 'hotspot-office',
+                                sceneId: 'officetwo'
+                            },
+                            {
+                                pitch: 0,
+                                yaw: 140,
+                                text: 'Office 1',
+                                type: 'scene',
+                                cssClass: 'hotspot-office',
+                                sceneId: 'officeone'
+                            },
+                            {
+                                pitch: 0,
+                                yaw: 160,
+                                text: 'Conference Room',
+                                type: 'scene',
+                                cssClass: 'hotspot-conference',
+                                sceneId: 'conferenceroom'
+                            }
+                        ]
+                    },
+                    conferenceroom: {
+                        type: 'equirectangular',
+                        panorama: 'https://media.dronesmoo.com/seedsofhope/conferenceroom.JPG',
+                        hotSpots: [
+                            {
+                                pitch: 0,
+                                yaw: -7.26,
+                                type: 'scene',
+                                text: 'Go to Hallway',
+                                cssClass: 'hotspot-hallway',
+                                sceneId: 'hall'
+                            }
+                        ]
+                    },
+                    officeone: {
+                        type: 'equirectangular',
+                        panorama: 'https://media.dronesmoo.com/seedsofhope/officeone.JPG',
+                        hotSpots: [
+                            {
+                                pitch: 0,
+                                yaw: 62.5,
+                                type: 'scene',
+                                text: 'Go to Hallway',
+                                cssClass: 'hotspot-hallway',
+                                sceneId: 'hall'
+                            }
+                        ]
+                    },
+                    officetwo: {
+                        type: 'equirectangular',
+                        panorama: 'https://media.dronesmoo.com/seedsofhope/officetwo.JPG',
+                        hotSpots: [
+                            {
+                                pitch: 0,
+                                yaw: -65.38,
+                                type: 'scene',
+                                text: 'Go to Hallway',
+                                cssClass: 'hotspot-hallway',
+                                sceneId: 'hall'
+                            }
+                        ]
+                    },
+                    officethree: {
+                        type: 'equirectangular',
+                        panorama: 'https://media.dronesmoo.com/seedsofhope/officethree.JPG',
+                        hotSpots: [
+                            {
+                                pitch: 0,
+                                yaw: 51.3,
+                                type: 'scene',
+                                text: 'Go to Hallway',
+                                cssClass: 'hotspot-hallway',
+                                sceneId: 'hall'
+                            }
+                        ]
+                    }
+                }
+            });
+
+            viewer.on('load', function() {
+                preloadImages();
+            });
+        }
+    </script>
 
 </body>
 </html>
