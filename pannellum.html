@@ -6,6 +6,24 @@
     <title>Virtual Tour</title>
     <link rel="stylesheet" href="pannellum.css">
     <style>
+        /* Base style for all hotspots */
+.pnlm-hotspot.pnlm-scene {
+    background-image: none;
+}
+
+/* Shared icon styles */
+[class^="hotspot-"]::before {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 24px;
+    color: white;
+}
+
+/* Room types */
+.hotspot-office::before { content: "\f0b1"; }
+.hotspot-conference::before { content: "\f0c0"; }
+.hotspot-hallway::before { content: "\f062"; }
+.hotspot-waiting::before { content: "\f4b8"; }
         .pnlm-hotspot.pnlm-scene {
     background-image: none;
         }    
@@ -94,8 +112,7 @@
                     type: 'scene',
                     text: 'Go to Hallway',
                     sceneId: 'hall',
-                createTooltipFunc: function(hotSpotDiv) {
-            hotSpotDiv.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';},
+                    cssClass: 'hotspot-hall',
                     autoLoad: true,
                    
                 }
@@ -110,6 +127,7 @@
                     yaw: -180,
                     text: 'Back to Waiting Room',
                     type: 'scene',
+                    cssClass: 'hotspot-wating',
                     sceneId: 'waitingroom'
                 },
                 {
@@ -117,6 +135,7 @@
                     yaw: 6,
                     text: 'Office 3',
                     type: 'scene',
+                    cssClass: 'hotspot-office',
                     sceneId: 'officethree'
                 },
                 {
@@ -124,6 +143,7 @@
                     yaw: 10,
                     text: 'Office 2',
                     type: 'scene',
+                    cssClass: 'hotspot-office',
                     sceneId: 'officetwo'
                 },
                 {
@@ -131,6 +151,7 @@
                     yaw: 140,
                     text: 'Office 1',
                     type: 'scene',
+                    cssClass: 'hotspot-office',
                     sceneId: 'officeone'
                 },
                 {
@@ -138,6 +159,7 @@
                     yaw: 160,
                     text: 'Conference Room',
                     type: 'scene',
+                    cssClass: 'hotspot-conference',
                     sceneId: 'conferenceroom'
                 }
             ]
@@ -151,6 +173,7 @@
                     yaw: -7.26,
                     type: 'scene',
                     text: 'Go to Hallway',
+                    cssClass: 'hotspot-hallway',
                     sceneId: 'hall'
                 }
             ]
@@ -164,6 +187,7 @@
                     yaw: 62.5,
                     type: 'scene',
                     text: 'Go to Hallway',
+                    cssClass: 'hotspot-hallway',
                     sceneId: 'hall'
                 }
             ]
@@ -177,6 +201,7 @@
                     yaw: -65.38,
                     type: 'scene',
                     text: 'Go to Hallway',
+                    cssClass: 'hotspot-hallway',
                     sceneId: 'hall'
                 }
             ]
@@ -190,6 +215,7 @@
                     yaw: 51.3,
                     type: 'scene',
                     text: 'Go to Hallway',
+                    cssClass: 'hotspot-hallway',
                     sceneId: 'hall'
                 }
             ]
