@@ -97,22 +97,21 @@
     <div id="panorama"></div>
 
     <script src="pannellum.js"></script>
-    function preloadImages() {
-    var urls = [
-        'https://media.dronesmoo.com/seedsofhope/hall.JPG',
-        'https://media.dronesmoo.com/seedsofhope/conferenceroom.JPG',
-        'https://media.dronesmoo.com/seedsofhope/officeone.JPG',
-        'https://media.dronesmoo.com/seedsofhope/officetwo.JPG',
-        'https://media.dronesmoo.com/seedsofhope/officethree.JPG'
-    ];
-    urls.forEach(function(url) {
-        var img = new Image();
-        img.src = url;
-    });
+    
     <script>
-        function startTour() {
-                    viewer.on('load', function() {
-    preloadImages();
+        function preloadImages() {
+        var urls = [
+            'https://media.dronesmoo.com/seedsofhope/hall.JPG',
+            'https://media.dronesmoo.com/seedsofhope/conferenceroom.JPG',
+            'https://media.dronesmoo.com/seedsofhope/officeone.JPG',
+            'https://media.dronesmoo.com/seedsofhope/officetwo.JPG',
+            'https://media.dronesmoo.com/seedsofhope/officethree.JPG'
+        ];
+        urls.forEach(function(url) {
+            var img = new Image();
+            img.src = url;
+        });
+    }
 });
             document.getElementById('landing').style.display = 'none';
             pannellum.viewer('panorama', {
@@ -245,7 +244,9 @@
     }
 });
         }
-        
+        function startTour() {
+                    viewer.on('load', function() {
+    preloadImages();
 }
 
     </script>
