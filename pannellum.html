@@ -241,7 +241,8 @@
     });
 }
         function startTour() {
-            document.getElementById('landing').style.display = 'none';
+            document.getElementById('enter-btn').textContent = 'Loading...';
+    document.getElementById('enter-btn').disabled = true;
             var viewer = pannellum.viewer('panorama', {
                 default: {
                     firstScene: 'waitingroom',
