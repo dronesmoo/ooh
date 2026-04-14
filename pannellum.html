@@ -6,16 +6,6 @@
     <title>Virtual Tour</title>
     <link rel="stylesheet" href="pannellum.css">
     <style>
-        #panorama-cover {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('sign.JPG') center/cover no-repeat;
-    z-index: 5;
-    transition: opacity 0.5s;
-}
         body {
             margin: 0;
             padding: 0;
@@ -24,7 +14,7 @@
         #panorama {
             width: 100%;
             height: 100vh;
-            backgroundImage: url("sign.JPG");
+            background: url('sign.JPG');
         }
         #landing {
             position: fixed;
@@ -34,7 +24,6 @@
             align-items: center;
             justify-content: center;
             z-index: 10;
-            
         }
         #landing h1 {
             color: white;
@@ -180,7 +169,6 @@
     </div>
 
     <div id="panorama"></div>
-    <div id="panorama-cover"></div>
     <div id="nav-bar"></div>
     <div id="nav-bar"></div>
 <button id="jump-toggle" onclick="toggleJumpMenu()">Jump to Room</button>
@@ -242,9 +230,7 @@
     });
 }
         function startTour() {
-            document.getElementById('enter-btn').textContent = 'Loading...';
-    document.getElementById('enter-btn').disabled = true;
-            
+            document.getElementById('landing').style.display = 'none';
             var viewer = pannellum.viewer('panorama', {
                 default: {
                     firstScene: 'waitingroom',
@@ -258,7 +244,6 @@
                         type: 'equirectangular',
                         panorama: 'https://media.dronesmoo.com/seedsofhope/waitingroom.JPG',
                                 maxPitch: 60,
-                        preview: "sign.JPG",
                         hotSpots: [
                             {
                                 pitch: 0,
@@ -382,15 +367,10 @@
             });
 
             viewer.on('load', function() {
-    var cover = document.getElementById('panorama-cover');
-    if (cover) {
-        cover.style.opacity = '0';
-        setTimeout(function() { cover.remove(); }, 600);
-    }
-    preloadImages();
-    updateNavBar(viewer);
-    buildJumpMenu(viewer);
-});
+                preloadImages();
+                updateNavBar(viewer);
+                buildJumpMenu(viewer);
+            });
             viewer.on('scenechange', function() {
     updateNavBar(viewer);
 });
